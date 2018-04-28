@@ -1,3 +1,4 @@
+#!flask/bin/python
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -16,6 +17,11 @@ def fields():
 	fields = session.query(Fields).all()
 	return render_template('fields.html', fields = fields)
 
+@app.route("fields/<field>"):
+def languages(field):
+	field = session.query(Fields).filter_by(name=field).one()
+	languages = session.query(MenuItem).filter_by(specialty_id=field.id).all()
+	return render_template('menu.html', field = field, languages = languages)
 if __name__ == '__main__':
 	app.debug = True
-	app.run(host='localhost', port=5000)
+	app.run(host='0.0.0.0', port=5000)
