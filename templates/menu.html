@@ -13,6 +13,9 @@
 	<div>
 		{% for i in languages %}
 		<h2><a href="#">{{i.name}}</a></h2>
+		<p>{{i.description}}</p>
+		<p><a href="{{'%s'%i.website}}">For More Information</a></p>
+		<img src="/static/images/{{i.image}}" width="300">
 		{% endfor %}
 	</div>
 </body>

@@ -9,10 +9,11 @@
 <body>
 	<div>
 		<h1>Software Specialties</h1>
+		<a href="{{url_for('newField')}}"><h4>Create a new Field</h4></a>
 	</div>
 	<div>
 		{% for i in fields %}
-		<h2><a href="#">{{i.name}}</a></h2>
+		<h2><a href="{{url_for('languages', field=i.name)}}">{{i.name}}</a></h2>
 		{% endfor %}
 	</div>
 	<h1>Latest Additions</h1>
