@@ -73,7 +73,35 @@ def newMenuItem(field):
 
 @app.route("/fields/<field>/<menuitem>/edit", methods=['GET', 'POST'])
 def editMenuItem(field, menuitem):
-	
+	editedItem = session.query(MenuItem).filter_by(name=menuitem).one()
+	if request.method == "POST":
+		if request.form['name']:
+			editedItem.name = request.form['name']
+		if request.form['description']:
+			editedItem.description = request.form['description']
+		if request.form['website']:
+			editedItem.website = request.form['website']
+		if request.form['image']:
+			editedItem.image = request.form['image']
+		session.add(editedItem)
+		session.commit()
+		return redirect(url_for('languages', field=field))
+	else:
+		return render_template('editMenuItem.html', field=field, menuitem=editedItem)
+
+@app.route('/fields/<field>/<menuitem>/delete', methods=['GET', 'POST'])
+def deleteMenuItem(field, menuitem):
+    itemToDelete = session.query(MenuItem).filter_by(name=menuitem).one()
+    if request.method == 'POST':
+    	if(request.form['choice'] == 'delete'):
+        	session.delete(itemToDelete)
+        	session.commit()
+        	return redirect(url_for('languages', field=field))
+        else:
+        	return redirect(url_for('languages', field=field))
+    else:
+        return render_template('deleteMenuItem.html', item=itemToDelete)
+    # return "This page is for deleting menu item %s" % menu_id
 
 if __name__ == '__main__':
 	app.debug = True
