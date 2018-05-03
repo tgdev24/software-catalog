@@ -1,7 +1,13 @@
 <html>
 <head>
 	<style>
-		h1{
+		h1, h4{
+			text-align: center;
+		}
+		.contain{
+			width: 300px;
+			margin-top: 10px;	
+			border: 3px solid black;
 			text-align: center;
 		}
 	</style>
@@ -13,7 +19,11 @@
 	</div>
 	<div>
 		{% for i in fields %}
-		<h2><a href="{{url_for('languages', field=i.name)}}">{{i.name}}</a></h2>
+		<div class="contain">
+			<h2><a href="{{url_for('languages', field=i.name)}}">{{i.name}}</a></h2>
+			<a href="{{url_for('editField', field=i.name)}}"><h5>Edit Field</h5></a>
+			<a href="{{url_for('deleteField', field=i.name)}}"><h5>Delete Field</h5></a>
+		</div>
 		{% endfor %}
 	</div>
 	<h1>Latest Additions</h1>

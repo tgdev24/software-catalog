@@ -25,7 +25,7 @@ class MenuItem(Base):
 	name = Column(String(250), nullable= False)
 	description = Column(String(1000))
 	website = Column(String(500))
-	image = Column(String(500))
+	image = Column(String(1000))
 	specialty_id = Column(Integer, ForeignKey('specialties.id'))
 	specialty = relationship(Fields)
 
