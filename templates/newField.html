@@ -1,16 +1,14 @@
 <html>
 <head>
-	<style>
-		h1{
-			text-align: center;
-		}
-	</style>
+	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
 	<h1>New Field</h1>
 	<form action="#" method="POST">
 		<p>Name:</p>
-		<input type='text' size="30" name="name">
-		<input type="submit" value="Create">
+		<input type='text' size="30" name="name" placeholder="Please enter the name of the field" required>
+		<br>
+		<input type="submit" name="choice" value="Create">
+		<input type="submit" name="choice" value="Cancel" formnovalidate>
 	</form>
 </body>

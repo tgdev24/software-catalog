@@ -1,0 +1,14 @@
+h1, h4{
+	text-align: center;
+}
+
+.contain{
+			width: 500px;
+			margin-top: 10px;	
+			border: 3px solid black;
+			text-align: center;
+}
+
+a{
+	text-decoration: none;
+}
