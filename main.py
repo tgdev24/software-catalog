@@ -16,6 +16,7 @@ session = DBSession()
 def fields():
 	# field = session.query(MenuItem).filter_by(id=7).one()
 	# session.delete(field)
+	# session.commit()
 	fields = session.query(Fields).all()
 	return render_template('fields.html', fields = fields)
 

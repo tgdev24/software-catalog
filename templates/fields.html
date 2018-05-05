@@ -1,20 +1,46 @@
 <html>
 <head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
-	<div>
-		<h1>Software Specialties</h1>
-		<a href="{{url_for('newField')}}"><h4>Create a new Field</h4></a>
-	</div>
-	<div>
-		{% for i in fields %}
-		<div class="contain">
-			<h2><a href="{{url_for('languages', field=i.name)}}">{{i.name}}</a></h2>
-			<a href="{{url_for('editField', field=i.name)}}"><h5>Edit Field</h5></a>
-			<a href="{{url_for('deleteField', field=i.name)}}"><h5>Delete Field</h5></a>
+	<div id="primary-nav">
+  		<div class="container pt-2 pb-2">
+  			<div class="row">
+  				<div class="col-lg-8 col-md-8 col-sm-12">
+  					<h1 id="header" class="text-left">Software Catalog App</h1>
+  				</div>
+  				<div class="col-lg-4 col-md-4 col-sm-12 d-flex">
+  					<span class="align-self-center">
+  						<button class="btn btn-large-success" type="button">Login</button>
+  					</span>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+	<div class="container pt-3 pb-5" id="awesome">	
+		<div class="row">
+			<div class="col">
+				<h2 class="text-center">Specialty Fields</h2>
+				<a href="{{url_for('newField')}}"><h4>Create New</h4></a>
+				<div>
+					{% for i in fields %}
+					<div class="contain">
+						<a href="{{url_for('languages', field=i.name)}}"><h4>{{i.name}}</h4></a>
+						<a href="{{url_for('editField', field=i.name)}}"><h6>Edit Field</h6></a>
+						<a href="{{url_for('deleteField', field=i.name)}}"><h6>Delete Field</h6></a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col">
+				<h2 class="text-center">Latest Additions</h2>
+				<a href="{{url_for('newMenuItem', field=fields[0].name)}}"><h4>Create New</h4></a>
+			</div>
 		</div>
-		{% endfor %}
+		
 	</div>
-	<h1>Latest Additions</h1>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 </body>
