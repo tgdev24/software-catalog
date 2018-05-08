@@ -23,8 +23,10 @@ a:hover {
 
 #awesome{
 	background-color: white;
+	border: 5px solid black;
 }
 
 body{
 	background-color: #808080;	
 }
+

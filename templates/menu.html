@@ -15,8 +15,8 @@
 			<p>{{i.description}}</p>
 			<p><a href="{{'%s'%i.website}}" target="_blank">For More Information</a></p>
 			<img src="{{i.image}}" width="300">
-			<a href="{{url_for('editMenuItem', field=field.name, menu_id=i.id)}}"><h5>Edit</h5></a>
-			<a href="{{url_for('deleteMenuItem', field=field.name, menu_id=i.id)}}"><h5>Delete</h5></a>
+			<a href="{{url_for('editMenuItem', id=field.id, menu_id=i.id)}}"><h5>Edit</h5></a>
+			<a href="{{url_for('deleteMenuItem', id=field.id, menu_id=i.id)}}"><h5>Delete</h5></a>
 		</div>
 		{% endfor %}
 	</div>

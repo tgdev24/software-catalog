@@ -81,8 +81,8 @@ def newMenuItem(id):
 	else:
 		return render_template('newMenuItem.html', field = currentfield.name)
 
-@app.route("/fields/<field>/<menu_id>/edit/", methods=['GET', 'POST'])
-def editMenuItem(field, menu_id):
+@app.route("/fields/<id>/<menu_id>/edit/", methods=['GET', 'POST'])
+def editMenuItem(id, menu_id):
 	editedItem = session.query(MenuItem).filter_by(id=menu_id).one()
 	if request.method == "POST":
 		if(request.form["choice"] == "Edit"):
@@ -95,27 +95,27 @@ def editMenuItem(field, menu_id):
 			if request.form['image']:
 				editedItem.image = request.form['image']
 			if request.form['category']:
-				specialty = session.query(Fields).filter_by(name=request.form['category']).one()
+				specialty = session.query(Fields).filter_by(name=request.form['category']).first()
 				editedItem.specialty_id = specialty.id
 			session.add(editedItem)
 			session.commit()
-			return redirect(url_for('languages', field=field))
+			return redirect(url_for('languages', id=id))
 		else:
-			return redirect(url_for('languages', field=field))
+			return redirect(url_for('languages', id=id))
 	else:
 		categories = session.query(Fields).all()
 		return render_template('editMenuItem.html', categories=categories, menuitem=editedItem)
 
-@app.route('/fields/<field>/<menu_id>/delete/', methods=['GET', 'POST'])
-def deleteMenuItem(field, menu_id):
+@app.route('/fields/<id>/<menu_id>/delete/', methods=['GET', 'POST'])
+def deleteMenuItem(id, menu_id):
     itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
     if request.method == 'POST':
     	if(request.form['choice'] == 'Delete'):
         	session.delete(itemToDelete)
         	session.commit()
-        	return redirect(url_for('languages', id=field))
+        	return redirect(url_for('languages', id=id))
         else:
-        	return redirect(url_for('languages', field=field))
+        	return redirect(url_for('languages', id=id))
     else:
         return render_template('deleteMenuItem.html', item=itemToDelete)
     # return "This page is for deleting menu item %s" % menu_id
@@ -125,11 +125,11 @@ def latestNew():
 	fields=session.query(Fields).all()
 	if(request.method == 'POST'):
 		if(request.form['choice'] == "Submit"):
-			field = session.query(Fields).filter_by(name=request.form["category"]).one()
+			field = session.query(Fields).filter_by(name=request.form["category"]).first()
 			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=field.id)
 			session.add(newMenuItem)
 			session.commit()
-			return redirect(url_for("languages", field=request.form["category"]))
+			return redirect(url_for("languages", id=field.id))
 		else:
 			return redirect(url_for("fields"))
 	else:
