@@ -26,16 +26,16 @@
 				<div>
 					{% for i in fields %}
 					<div class="contain">
-						<a href="{{url_for('languages', field=i.name)}}"><h4>{{i.name}}</h4></a>
-						<a href="{{url_for('editField', field=i.name)}}"><h6>Edit Field</h6></a>
-						<a href="{{url_for('deleteField', field=i.name)}}"><h6>Delete Field</h6></a>
+						<a href="{{url_for('languages', id=i.id)}}"><h4>{{i.name}}</h4></a>
+						<a href="{{url_for('editField', id=i.id)}}"><h6>Edit Field</h6></a>
+						<a href="{{url_for('deleteField', id=i.id)}}"><h6>Delete Field</h6></a>
 					</div>
 					{% endfor %}
 				</div>
 			</div>
 			<div class="col">
 				<h2 class="text-center">Latest Additions</h2>
-				<a href="{{url_for('newMenuItem', field=fields[0].name)}}"><h4>Create New</h4></a>
+				<a href="{{url_for('latestNew')}}"><h4>Create New</h4></a>
 			</div>
 		</div>
 		

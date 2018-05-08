@@ -25,6 +25,15 @@ menuItem2 = MenuItem(name = "CSS", description = "Style sheet language used for 
 session.add(menuItem2)
 session.commit()
 
+menuItem9 = MenuItem(name = "ReactJS", description = "A javascript library for designing UI's with built-in XML-like markup langauge, components rendering, and virtual DOM. Mostly used for the front-end however there is react Native available for powering mobile apps and can be used with Node to power server-side apps.", website = "https://www.w3schools.com/html/", image = "https://cdn-images-1.medium.com/max/512/1*qUlxDdY3T-rDtJ4LhLGkEg.png", specialty = field1)
+session.add(menuItem9)
+session.commit()
+
+menuItem8 = MenuItem(name = "Vue.js", description = "A javascript framework used to make user interfaces quickly and easily as noted by its small size as well as easy-to-understand syntax. It uses javascript so developers of other frameworks can understand and include in their projects. Lastly the MVVM architecture allows 2 way communication between back-end logic code and the graphical user interface code therefore speeding up operations using HTML block elements.", website = "https://vuejs.org/", image = "https://cdn-images-1.medium.com/max/850/1*nq9cdMxtdhQ0ZGL8OuSCUQ.jpeg", specialty = field1)
+session.add(menuItem8)
+session.commit()
+
+
 session.add(field1)
 session.commit()
 

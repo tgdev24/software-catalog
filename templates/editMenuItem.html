@@ -10,9 +10,9 @@
 		<label for="description">Description:</label><br>
 		<textarea rows="4" cols="32" id="description" name="description"></textarea><br>	
 		<label for="website">Website:</label><br>
-		<input type="url" id="website" pattern="^https?://" size="30" name="website"><br>
+		<input type="url" id="website" pattern="https?://.+" size="30" name="website"><br>
 		<label for="image">Image URL:</label><br>
-		<input type="url" id="image"  pattern="^https?://" size="30" name="image"><br>
+		<input type="url" id="image"  pattern="https?://.+" size="30" name="image"><br>
 		<label for="category">Category:</label><br>
 		<select id="category" name="category">
 			{% for i in categories %}

@@ -5,7 +5,7 @@
 <body>
 	<div>
 		<h1>Languages and Tools in {{field.name}}</h1>
-		<a href="{{url_for('newMenuItem', field = field.name)}}"><h4>Add New Tool or Language</h4></a>
+		<a href="{{url_for('newMenuItem', id = field.id)}}"><h4>Add New Tool or Language</h4></a>
 	</div>
 	<div>
 		{% for i in languages %}
@@ -15,8 +15,8 @@
 			<p>{{i.description}}</p>
 			<p><a href="{{'%s'%i.website}}" target="_blank">For More Information</a></p>
 			<img src="{{i.image}}" width="300">
-			<a href="{{url_for('editMenuItem', field=field.name, menuitem=i.name)}}"><h5>Edit</h5></a>
-			<a href="{{url_for('deleteMenuItem', field=field.name, menuitem=i.name)}}"><h5>Delete</h5></a>
+			<a href="{{url_for('editMenuItem', field=field.name, menu_id=i.id)}}"><h5>Edit</h5></a>
+			<a href="{{url_for('deleteMenuItem', field=field.name, menu_id=i.id)}}"><h5>Delete</h5></a>
 		</div>
 		{% endfor %}
 	</div>

@@ -3,17 +3,23 @@
 	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
-	<h1>New Menu Item for {{field}}</h1>
+	<h1>New Menu Item</h1>
 	<form action="#" method="POST">
 		<label for="name">Name:</label><br>
 		<input type='text' id='name' size="30" name="name" required><br>
 		<label for="description">Description:</label><br>
 		<textarea rows="4" cols="32" id="description" name="description" required></textarea><br>	
 		<label for="website">Website:</label><br>
-		<input type="url" pattern="https?://.+" id="website" size="30" name="website" required><br>
+		<input type="url" id="website" pattern="https?://.+" size="30" name="website" required><br>
 		<label for="image">Image URL:</label><br>
-		<input type="url" id="image" pattern="https?://.+" size="30" name="image" required><br>
-		<input type="submit" name="choice" value="Add">
+		<input type="url" id="image"  pattern="https?://.+" size="30" name="image" required><br>
+		<label for="category">Category:</label><br>
+		<select id="category" name="category">
+			{% for i in categories %}
+			<option value="{{i.name}}">{{i.name}}</option>
+			{% endfor%}
+		</select><br>
+		<input type="submit" name="choice" value="Submit">
 		<input type="submit" name="choice" value="Cancel" formnovalidate><br>
 	</form>
 </body>
