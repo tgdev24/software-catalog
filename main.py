@@ -18,7 +18,7 @@ def fields():
 	# session.delete(field)
 	# session.commit()
 	fields = session.query(Fields).all()
-	latestOnes = session.query(Fields).someselect.order_by(desc(id)).limit(6).all()
+	latestOnes = session.query(MenuItem).order_by(desc(MenuItem.id)).limit(7).all()
 	return render_template('fields.html', fields = fields, latest=latestOnes)
 
 @app.route("/fields/<id>/")

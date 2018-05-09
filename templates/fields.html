@@ -35,7 +35,8 @@
 			</div>
 			<div class="col">
 				<h2 class="text-center">Latest Additions</h2>
-				{% for i in %}
+				{% for i in latest%}
+				<a href="{{url_for('languages', id=i.specialty_id, _anchor=i.name)}}"><h4>{{i.name}}</h4></a>
 				{%endfor%}
 			</div>
 		</div>
