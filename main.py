@@ -1,6 +1,6 @@
 #!flask/bin/python
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Fields, MenuItem
 
@@ -18,13 +18,15 @@ def fields():
 	# session.delete(field)
 	# session.commit()
 	fields = session.query(Fields).all()
-	return render_template('fields.html', fields = fields)
+	latestOnes = session.query(Fields).someselect.order_by(desc(id)).limit(6).all()
+	return render_template('fields.html', fields = fields, latest=latestOnes)
 
 @app.route("/fields/<id>/")
 def languages(id):
 	field = session.query(Fields).filter_by(id=id).one()
+	fields = session.query(Fields).all()
 	languages = session.query(MenuItem).filter_by(specialty_id=field.id).all()
-	return render_template('menu.html', field = field, languages = languages)
+	return render_template('menu.html',fields=fields, field = field, languages = languages)
 
 @app.route("/fields/new/", methods=['GET', 'POST'])
 def newField():
@@ -120,20 +122,20 @@ def deleteMenuItem(id, menu_id):
         return render_template('deleteMenuItem.html', item=itemToDelete)
     # return "This page is for deleting menu item %s" % menu_id
 
-@app.route('/fields/latestnew', methods=['GET', 'POST'])
-def latestNew():
-	fields=session.query(Fields).all()
-	if(request.method == 'POST'):
-		if(request.form['choice'] == "Submit"):
-			field = session.query(Fields).filter_by(name=request.form["category"]).first()
-			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=field.id)
-			session.add(newMenuItem)
-			session.commit()
-			return redirect(url_for("languages", id=field.id))
-		else:
-			return redirect(url_for("fields"))
-	else:
-		return render_template('latestNew.html', categories=fields)
+# @app.route('/fields/latestnew', methods=['GET', 'POST'])
+# def latestNew():
+# 	fields=session.query(Fields).all()
+# 	if(request.method == 'POST'):
+# 		if(request.form['choice'] == "Submit"):
+# 			field = session.query(Fields).filter_by(name=request.form["category"]).first()
+# 			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=field.id)
+# 			session.add(newMenuItem)
+# 			session.commit()
+# 			return redirect(url_for("languages", id=field.id))
+# 		else:
+# 			return redirect(url_for("fields"))
+# 	else:
+# 		return render_template('latestNew.html', categories=fields)
 
 if __name__ == '__main__':
 	app.debug = True

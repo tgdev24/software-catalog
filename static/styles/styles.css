@@ -1,12 +1,28 @@
-h1, h4{
+h1, h6, h2, h4{
 	text-align: center;
+}
+h1{
+	font-size: 52px;
+}
+h2, h3{
+	color: #002266;
+	font-size: 40px;
+}
+
+h4{
+	font-size: 20px;
+}
+
+h4, h6{
+	color: #28a745;
 }
 
 .contain{
-			width: 500px;
-			margin-top: 10px;	
-			border: 3px solid black;
-			text-align: center;
+	width: 500px;
+	margin-top: 10px;	
+	border: 3px solid black;
+	text-align: center;
+	display: inline-block;
 }
 
 a:hover {
@@ -23,10 +39,38 @@ a:hover {
 
 #awesome{
 	background-color: white;
-	border: 5px solid black;
+	border: 1px solid black;
+	margin-top: 15px;
+	margin-bottom: 30px;
 }
 
 body{
-	background-color: #808080;	
+	background-color: #C0C0C0;	
 }
 
+.button {
+  display: inline-block;
+  padding: 5px 20px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 0.25rem;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.fields{
+	padding-right:20px; 
+	border-right: 1px solid #002266;
+}

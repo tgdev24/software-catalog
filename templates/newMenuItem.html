@@ -1,19 +1,52 @@
 <html>
 <head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
-	<h1>New Menu Item for {{field}}</h1>
-	<form action="#" method="POST">
-		<label for="name">Name:</label><br>
-		<input type='text' id='name' size="30" name="name" required><br>
-		<label for="description">Description:</label><br>
-		<textarea rows="4" cols="32" id="description" name="description" required></textarea><br>	
-		<label for="website">Website:</label><br>
-		<input type="url" pattern="https?://.+" id="website" size="30" name="website" required><br>
-		<label for="image">Image URL:</label><br>
-		<input type="url" id="image" pattern="https?://.+" size="30" name="image" required><br>
-		<input type="submit" name="choice" value="Add">
-		<input type="submit" name="choice" value="Cancel" formnovalidate><br>
-	</form>
+	<div id="primary-nav">
+  		<div class="container pt-2 pb-2">
+  			<div class="row d-flex">
+  				<div class="col-lg-8 col-md-8 col-sm-12">
+  					<h1 id="header" class="text-left">Software Catalog App</h1>
+  				</div>
+  				<div class="col-lg-4 col-md-4 col-sm-12 align-self-center">
+  					<!-- <div class=""> -->
+  						<button class="btn btn-large float-right button" type="button">Login</button>
+  					<!-- </div> -->
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+	<div class="container pt-3 pb-3" id="awesome">	
+		<h2>New Field</h2>
+		<form action="#" method="POST">
+			<div class="form-group row">
+				<label for="inputName" class="col-sm-2 col-form-label">Name</label>
+				<div class="col-sm-10">
+					<input class="form-control" id="inputName" type='text' name="name" placeholder="Please enter the name of the field" required>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="description" class="col-sm-2 col-form-label">Description</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="3" id="description" name="description" placeholder="Please write a bit about the tool or language"required></textarea>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="Website" class="col-sm-2 col-form-label">Website</label>
+				<div class="col-sm-10">
+					<input class="form-control" type="url" pattern="https?://.+" id="website" name="website" placeholder="Please enter the website for information" required>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="url" class="col-sm-2 col-form-label">Image URL</label>
+				<div class="col-sm-10">
+					<input class="form-control" id="url" type='url' name="image" pattern="https?://.+" placeholder="Please enter the url of the image" required>
+				</div>
+			</div>
+			<input type="submit" class="btn btn-success" name="choice" value="Add">
+			<input type="submit" class="btn btn-success" name="choice" value="Cancel" formnovalidate>
+		</form>	
+	</div>
 </body>

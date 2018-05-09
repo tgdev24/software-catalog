@@ -6,39 +6,39 @@
 <body>
 	<div id="primary-nav">
   		<div class="container pt-2 pb-2">
-  			<div class="row">
+  			<div class="row d-flex">
   				<div class="col-lg-8 col-md-8 col-sm-12">
   					<h1 id="header" class="text-left">Software Catalog App</h1>
   				</div>
-  				<div class="col-lg-4 col-md-4 col-sm-12 d-flex">
-  					<span class="align-self-center">
-  						<button class="btn btn-large-success" type="button">Login</button>
-  					</span>
+  				<div class="col-lg-4 col-md-4 col-sm-12 align-self-center">
+  					<!-- <div class=""> -->
+  						<button class="btn btn-large float-right button" type="button">Login</button>
+  					<!-- </div> -->
   				</div>
   			</div>
   		</div>
   	</div>
-	<div class="container pt-3 pb-5" id="awesome">	
+	<div class="container pt-3 pb-3" id="awesome">	
 		<div class="row">
-			<div class="col">
+			<div class="col fields">
 				<h2 class="text-center">Specialty Fields</h2>
-				<a href="{{url_for('newField')}}"><h4>Create New</h4></a>
+				<a href="{{url_for('newField')}}"><h6>Create New</h6></a>
 				<div>
 					{% for i in fields %}
 					<div class="contain">
 						<a href="{{url_for('languages', id=i.id)}}"><h4>{{i.name}}</h4></a>
-						<a href="{{url_for('editField', id=i.id)}}"><h6>Edit Field</h6></a>
-						<a href="{{url_for('deleteField', id=i.id)}}"><h6>Delete Field</h6></a>
+						<a href="{{url_for('editField', id=i.id)}}"><h6>Edit</h6></a>
+						<a href="{{url_for('deleteField', id=i.id)}}"><h6>Delete</h6></a>
 					</div>
 					{% endfor %}
 				</div>
 			</div>
 			<div class="col">
 				<h2 class="text-center">Latest Additions</h2>
-				<a href="{{url_for('latestNew')}}"><h4>Create New</h4></a>
+				{% for i in %}
+				{%endfor%}
 			</div>
 		</div>
-		
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>

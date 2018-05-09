@@ -1,12 +1,28 @@
 <html>
 <head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
-	<h1>Are you sure you want to delete {{name}} and all its associated languages/tools?</h1>
-	<form action="#" method="POST">
-		<!-- adding two submit buttons with same name allows to choose on submission -->
-		<input type="submit" name="choice" value="Yes">
-		<input type='submit' name="choice" value="No">
-	</form>
+	<div id="primary-nav">
+  		<div class="container pt-2 pb-2">
+  			<div class="row d-flex">
+  				<div class="col-lg-8 col-md-8 col-sm-12">
+  					<h1 id="header" class="text-left">Software Catalog App</h1>
+  				</div>
+  				<div class="col-lg-4 col-md-4 col-sm-12 align-self-center">
+  					<!-- <div class=""> -->
+  						<button class="btn btn-large float-right button" type="button">Login</button>
+  					<!-- </div> -->
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+	<div class="container pt-3 pb-3 text-center" id="awesome">	
+		<h2>Are you sure you want to delete {{name}} and all its associated languages/tools?</h2>
+		<form action="#" method="POST">
+			<input type="submit" class="btn btn-success" name="choice" value="Yes">
+			<input type="submit" class="btn btn-success" name="choice" value="No">
+		</form>	
+	</div>
 </body>
