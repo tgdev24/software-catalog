@@ -23,7 +23,7 @@
 			<div class="col fields">
 				<h2 class="text-center">Specialty Fields</h2>
 				<a href="{{url_for('newField')}}"><h6>Create New</h6></a>
-				<div>
+				<div class="text-center">
 					{% for i in fields %}
 					<div class="contain">
 						<a href="{{url_for('languages', id=i.id)}}"><h4>{{i.name}}</h4></a>
