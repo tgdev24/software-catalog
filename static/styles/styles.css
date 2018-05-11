@@ -4,7 +4,7 @@ h1, h6, h2, h4{
 h1{
 	font-size: 52px;
 }
-h2, h3{
+h2{
 	color: #002266;
 	font-size: 40px;
 }
@@ -15,6 +15,11 @@ h4{
 
 h4, h6{
 	color: #28a745;
+}
+
+#menuitems{
+	color: #002266;
+	font-size: 32px;
 }
 
 .contain{

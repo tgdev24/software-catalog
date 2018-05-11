@@ -1,10 +1,10 @@
 #!flask/bin/python
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 from flask import session as login_session
 import random, string
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Fields, MenuItem
+from database_setup import Base, User, Fields, MenuItem
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
@@ -12,11 +12,11 @@ import json
 from flask import make_response
 import requests
 
-CLIENT_ID = json.loads(open('clientsecrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open('client_secrets3.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "software catalog app"
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine('sqlite:///catalogwithusers.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -26,7 +26,7 @@ session = DBSession()
 def login():
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
 	login_session['state'] = state
-	return render_template('login.html', state=state)
+	return render_template('login.html', STATE=state)
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -40,7 +40,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('clientsecrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('client_secrets3.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -95,7 +95,7 @@ def gconnect():
     answer = requests.get(userinfo_url, params=params)
 
     data = answer.json()
-
+  	
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
@@ -114,26 +114,81 @@ def gconnect():
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
-	
+
+@app.route('/gdisconnect')
+def gdisconnect():
+    access_token = login_session.get('access_token')
+    if access_token is None:
+        print 'Access Token is None'
+        response = make_response(json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    print 'In gdisconnect access token is %s', access_token
+    print 'User name is: '
+    print login_session['username']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    print 'result is '
+    print result
+    if result['status'] == '200':
+        del login_session['access_token']
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
 @app.route("/")
 @app.route("/fields/")
 def fields():
-	# field = session.query(MenuItem).filter_by(id=7).one()
-	# session.delete(field)
-	# session.commit()
 	fields = session.query(Fields).all()
 	latestOnes = session.query(MenuItem).order_by(desc(MenuItem.id)).limit(7).all()
+	if('username' not in login_session):
+		return render_template('publicfields.html', fields= fields, latest=latestOnes)
 	return render_template('fields.html', fields = fields, latest=latestOnes)
 
 @app.route("/fields/<id>/")
 def languages(id):
 	field = session.query(Fields).filter_by(id=id).one()
+	creator = getUserInfo(field.user_id)
 	fields = session.query(Fields).all()
 	languages = session.query(MenuItem).filter_by(specialty_id=field.id).all()
+	if('username' not in login_session or creator.id != login_session['user_id']):
+		return render_template('publicmenu.html', fields= fields, field=field, languages=languages, creator=creator)
 	return render_template('menu.html',fields=fields, field = field, languages = languages)
 
 @app.route("/fields/new/", methods=['GET', 'POST'])
 def newField():
+	if 'username' not in login_session:
+		return redirect('/login')
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
 			newField = Fields(name=request.form['name'])
@@ -147,6 +202,8 @@ def newField():
 
 @app.route("/fields/<id>/edit/", methods=['GET', 'POST'])
 def editField(id):
+	if 'username' not in login_session:
+		return redirect('/login')
 	field = session.query(Fields).filter_by(id=id).one()
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
@@ -161,6 +218,8 @@ def editField(id):
 
 @app.route("/fields/<id>/delete/", methods=['GET', 'POST'])
 def deleteField(id):
+	if 'username' not in login_session:
+		return redirect('/login')
 	fieldToBeDeleted = session.query(Fields).filter_by(id=id).one()
 	if(request.method == 'POST'):
 		choice = request.form['choice']
@@ -175,6 +234,8 @@ def deleteField(id):
 
 @app.route("/fields/<id>/new/", methods=['GET', 'POST'])
 def newMenuItem(id):
+	if 'username' not in login_session:
+		return redirect('/login')
 	currentfield = session.query(Fields).filter_by(id=id).one()
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Add"):
@@ -189,6 +250,8 @@ def newMenuItem(id):
 
 @app.route("/fields/<id>/<menu_id>/edit/", methods=['GET', 'POST'])
 def editMenuItem(id, menu_id):
+	if 'username' not in login_session:
+		return redirect('/login')
 	editedItem = session.query(MenuItem).filter_by(id=menu_id).one()
 	if request.method == "POST":
 		if(request.form["choice"] == "Edit"):
@@ -214,32 +277,19 @@ def editMenuItem(id, menu_id):
 
 @app.route('/fields/<id>/<menu_id>/delete/', methods=['GET', 'POST'])
 def deleteMenuItem(id, menu_id):
-    itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
-    if request.method == 'POST':
-    	if(request.form['choice'] == 'Delete'):
-        	session.delete(itemToDelete)
-        	session.commit()
-        	return redirect(url_for('languages', id=id))
-        else:
-        	return redirect(url_for('languages', id=id))
-    else:
-        return render_template('deleteMenuItem.html', item=itemToDelete)
-    # return "This page is for deleting menu item %s" % menu_id
-
-# @app.route('/fields/latestnew', methods=['GET', 'POST'])
-# def latestNew():
-# 	fields=session.query(Fields).all()
-# 	if(request.method == 'POST'):
-# 		if(request.form['choice'] == "Submit"):
-# 			field = session.query(Fields).filter_by(name=request.form["category"]).first()
-# 			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=field.id)
-# 			session.add(newMenuItem)
-# 			session.commit()
-# 			return redirect(url_for("languages", id=field.id))
-# 		else:
-# 			return redirect(url_for("fields"))
-# 	else:
-# 		return render_template('latestNew.html', categories=fields)
+	if 'username' not in login_session:
+		return redirect('/login')
+	itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
+	if request.method == 'POST':
+		if(request.form['choice'] == 'Delete'):
+			session.delete(itemToDelete)
+			session.commit()
+			return redirect(url_for('languages', id=id))
+		else:
+			return redirect(url_for('languages', id=id))
+	else:
+		return render_template('deleteMenuItem.html', item=itemToDelete)
+	# return "This page is for deleting menu item %s" % menu_id
 
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'
