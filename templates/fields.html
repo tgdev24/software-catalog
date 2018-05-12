@@ -20,9 +20,9 @@
   	</div>
 	<div class="container pt-3 pb-3" id="awesome">	
 		<div class="row">
-			<div class="col fields">
+			<div class="col fields text-center">
 				<h2 class="text-center">Specialty Fields</h2>
-				<a href="{{url_for('newField')}}"><h6>Create New</h6></a>
+				<a href="{{url_for('newField')}}"><button type="button" class="btn btn-outline-success mt-2 mb-2">Create New Field</button></a>
 				<div class="text-center">
 					{% for i in fields %}
 					<a href="{{url_for('languages', id=i.id)}}"><h4>{{i.name}}</h4></a>

@@ -191,7 +191,8 @@ def newField():
 		return redirect('/login')
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
-			newField = Fields(name=request.form['name'])
+			# must store the user that's currently logged in
+			newField = Fields(name=request.form['name'], user_id=login_session['user_id'])
 			session.add(newField)
 			session.commit()
 			return redirect(url_for('fields'))
@@ -199,6 +200,11 @@ def newField():
 			return redirect(url_for('fields'))
 	else:
 		return render_template('newField.html')
+
+@app.route("/users/")
+def users():
+	users = session.query(User).all()
+	return render_template('users.html', users=users)
 
 @app.route("/fields/<id>/edit/", methods=['GET', 'POST'])
 def editField(id):
@@ -239,7 +245,7 @@ def newMenuItem(id):
 	currentfield = session.query(Fields).filter_by(id=id).one()
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Add"):
-			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=currentfield.id)
+			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=currentfield.id, user_id=login_session['user_id'])
 			session.add(newMenuItem)
 			session.commit()
 			return redirect(url_for('languages', id = currentfield.id))

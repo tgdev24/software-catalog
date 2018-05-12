@@ -50,7 +50,11 @@
 				<div class="col-sm-10">
 					<select class="form-control" id="category" name="category">
 						{% for i in categories %}
-						<option value="{{i.name}}">{{i.name}}</option>
+						{% if menuitem.specialty_id == i.id %}
+							<option value="{{i.name}}" selected>{{i.name}}</option>
+						{% else %}
+							<option value="{{i.name}}">{{i.name}}</option>
+						{% endif %}
 						{% endfor%}
 					</select>
 				</div>

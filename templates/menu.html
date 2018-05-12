@@ -28,11 +28,11 @@
 				{% endfor %}
 			</div>
 			<div class="col-sm-9 mx-auto">
-				<div>
+				<div class="text-center">
 					<h2 class="text-center">Languages in {{field.name}}</h2>
-					<a href="{{url_for('editField', id=field.id)}}"><h6>Edit</h6></a>
-					<a href="{{url_for('deleteField', id=field.id)}}"><h6>Delete</h6></a>
-					<a href="{{url_for('newMenuItem', id = field.id)}}"><h6>Add New</h6></a>
+					<a href="{{url_for('editField', id=field.id)}}"><button type="button" class="btn btn-outline-success">Edit Field</button></a>
+					<a href="{{url_for('deleteField', id=field.id)}}"><button type="button" class="btn btn-outline-success">Delete Field</button></a>
+					<a href="{{url_for('newMenuItem', id=field.id)}}"><button type="button" class="btn btn-outline-success">Add Menu Item</button></a>
 				</div>
 				<div class="text-center">
 					{% for i in languages %}
