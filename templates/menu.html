@@ -1,6 +1,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
@@ -30,9 +31,9 @@
 			<div class="col-sm-9 mx-auto">
 				<div class="text-center">
 					<h2 class="text-center">Languages in {{field.name}}</h2>
-					<a href="{{url_for('editField', id=field.id)}}"><button type="button" class="btn btn-outline-success">Edit Field</button></a>
-					<a href="{{url_for('deleteField', id=field.id)}}"><button type="button" class="btn btn-outline-success">Delete Field</button></a>
-					<a href="{{url_for('newMenuItem', id=field.id)}}"><button type="button" class="btn btn-outline-success">Add Menu Item</button></a>
+					<a href="{{url_for('editField', id=field.id)}}"><button type="button" class="btn btn-outline-success"><i class="material-icons align-middle">edit</i> <span class="align-middle">Edit Field</span></button></a>
+					<a href="{{url_for('deleteField', id=field.id)}}"><button type="button" class="btn btn-outline-success"><i class="material-icons align-middle">delete</i> <span>Delete Field</span></button></a>
+					<a href="{{url_for('newMenuItem', id=field.id)}}"><button type="button" class="btn btn-outline-dark"><i class="material-icons align-middle">add</i> Add Menu Item</button></a>
 				</div>
 				<div class="text-center">
 					{% for i in languages %}

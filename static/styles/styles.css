@@ -79,3 +79,17 @@ body{
 	padding-right:20px; 
 	border-right: 1px solid #002266;
 }
+
+.flash {
+	background-color: #98FB98;
+	width:100%;
+	text-decoration: none;
+}
+
+.flash li{
+	list-style-type: none;
+}
+
+.editBtn{
+	vertical-align:middle;
+}

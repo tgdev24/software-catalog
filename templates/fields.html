@@ -12,11 +12,22 @@
   				</div>
   				<div class="col-lg-4 col-md-4 col-sm-12 align-self-center">
   					<!-- <div class=""> -->
-  						<a href="{{url_for('login')}}"><button class="btn btn-large float-right button" type="button">Login</button></a>
+  						<a href="{{url_for('gdisconnect')}}"><button class="btn btn-large float-right button" type="button">Logout</button></a>
   					<!-- </div> -->
   				</div>
   			</div>
   		</div>
+  	</div>
+  	<div class="flash">
+  		{% with messages = get_flashed_messages() %}
+  		{% if messages %}
+  		<ul>
+  			{% for message in messages %}
+  			<li class="text-center"><strong> {{ message }} </strong> </li>
+  			{% endfor %}
+  		</ul>
+  		{% endif %}
+  		{% endwith %}
   	</div>
 	<div class="container pt-3 pb-3" id="awesome">	
 		<div class="row">
