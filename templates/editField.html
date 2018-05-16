@@ -1,34 +1,17 @@
-<html>
-<head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-	<link rel="stylesheet" href="/static/styles/styles.css">
-</head>
-<body>
-	<div id="primary-nav">
-  		<div class="container pt-2 pb-2">
-  			<div class="row d-flex">
-  				<div class="col-lg-8 col-md-8 col-sm-12">
-  					<h1 id="header" class="text-left">Software Catalog App</h1>
-  				</div>
-  				<div class="col-lg-4 col-md-4 col-sm-12 align-self-center">
-  					<!-- <div class=""> -->
-  						<button class="btn btn-large float-right button" type="button">Login</button>
-  					<!-- </div> -->
-  				</div>
-  			</div>
-  		</div>
-  	</div>
-	<div class="container pt-3 pb-3" id="awesome">	
-		<h1>Edit Details for {{field.name}}</h1>
-		<form action="#" method="POST">
-			<div class="form-group row">
-				<label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
-				<div class="col-sm-10">
-					<input class="form-control" id="inputEmail3" type='text' size="30" name="name" placeholder="Please enter the new name of the field" required>
-				</div>
-			</div>
-			<input type="submit" class="btn btn-success" name="choice" value="Submit">
-			<input type="submit" class="btn btn-success" name="choice" value="Cancel" formnovalidate>
-		</form>	
+{% extends "main.html" %}
+{% block logBtn %}
+<a href="{{url_for('gdisconnect')}}"><button class="btn btn-large float-right button" type="button">Logout</button></a>
+{% endblock %}
+{% block midContent %}
+<h1>Edit Details for {{field.name}}</h1>
+<form action="#" method="POST">
+	<div class="form-group row">
+		<label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+		<div class="col-sm-10">
+			<input class="form-control" id="inputEmail3" type='text' size="30" name="name" placeholder="Please enter the new name of the field" required>
+		</div>
 	</div>
-</body>
+	<input type="submit" class="btn btn-success" name="choice" value="Submit">
+	<input type="submit" class="btn btn-success" name="choice" value="Cancel" formnovalidate>
+</form>	
+{% endblock %}

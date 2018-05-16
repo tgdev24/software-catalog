@@ -1,49 +1,79 @@
 <html>
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
-	<div id="signinButton">
-		<span class="g-signin"
-			data-scope="openid email"
-			data-clientid = "179818520544-qrdtmehqago5onkkak8bnl531vp81ntt.apps.googleusercontent.com"
-			data-redirecturi= "postmessage"
-			data-accesstype="offline"
-			data-cookiepolicy = "single_host-origin"
-			data-callback ="signInCallback"
-			data-approvalprompt = "force">
-		</span>
-	</div>
-	<div id="result"></div>
+	<div id="primary-nav">
+  		<div class="container pt-2 pb-2">
+  			<div class="row d-flex">
+  				<div class="col align-self-center">
+  					<h1 id="header" class="float-middle">Software Catalog App</h1>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<div class="container pt-3 pb-3" id="awesome">
+  		<form class="sign-in text-center">
+  			<img class="mb-4 mt-3" src="{{url_for('static', filename='images/lang.png')}}" width="150" />
+  			<h3 class="mb-3">Please sign in</h3> 
+  			<input class="form-control" type='email' name="name" placeholder="Email address" required autofocus autosave>
+  			<input class="form-control" type='password' name="pass" placeholder="Password" required autofocus autosave>
+  			<div class="checkbox mt-3 mb-2">
+  				<label><input type="checkbox" value="remember-me"> Remember me</label>
+  			</div>
+  			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+  			<label for
+  			<div id="signinButton">
+	  			<span class="g-signin"
+	  			data-scope="openid email"
+	  			data-clientid = "179818520544-qrdtmehqago5onkkak8bnl531vp81ntt.apps.googleusercontent.com"
+	  			data-redirecturi= "postmessage"
+	  			data-accesstype="offline"
+	  			data-cookiepolicy = "single_host-origin"
+	  			data-callback ="signInCallback"
+	  			data-approvalprompt = "force">
+	  			</span>
+  			</div>
+  			<div id="result"></div>
+  			<p class="mt-2 mb-3 text-muted">&copy; 2018-2019</p>
+  		</form>
+  	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
 	<script>
 		function signInCallback(authResult) {
-		  if (authResult['code']) {
-		    // Hide the sign-in button now that the user is authorized
-		    $('#signinButton').attr('style', 'display: none');
-		    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
-		    $.ajax({
-		      type: 'POST',
-		      url: '/gconnect?state={{STATE}}',
-		      processData: false,
-		      data: authResult['code'],
-		      contentType: 'application/octet-stream; charset=utf-8',
-		      success: function(result) {
-		        // Handle or verify the server response if necessary.
-		        if (result) {
-		          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
-		         setTimeout(function() {
-		          window.location.href = "/fields";
-		         }, 4000);
-		          
-		      } else if (authResult['error']) {
-		    console.log('There was an error: ' + authResult['error']);
-		  } else {
-		        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
-		         }
-		      }
-		      
-		  }); } }
+			if (authResult['code']) {
+			    // Hide the sign-in button now that the user is authorized
+			    $('#signinButton').attr('style', 'display: none');
+			    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+			    $.ajax({
+			    	type: 'POST',
+			    	url: '/gconnect?state={{STATE}}',
+			    	processData: false,
+			    	data: authResult['code'],
+			    	contentType: 'application/octet-stream; charset=utf-8',
+			    	success: function(result) {
+				        // Handle or verify the server response if necessary.
+				        if (result) {
+				        	$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+				        	setTimeout(function() {
+				        		window.location.href = "/fields";
+				        	}, 1000);
+
+				        } else if (authResult['error']) {
+				        	console.log('There was an error: ' + authResult['error']);
+				        } else {
+				        	$('#result').html('Failed to make a server-side call. Check your configuration and console.');
+				        }
+			    	}
+				}); 
+			} 
+		}
 	</script>
 <!-- facebook login -->
 	<!-- <script>

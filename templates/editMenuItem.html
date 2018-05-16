@@ -1,66 +1,49 @@
-<html>
-<head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-	<link rel="stylesheet" href="/static/styles/styles.css">
-</head>
-<body>
-	<div id="primary-nav">
-  		<div class="container pt-2 pb-2">
-  			<div class="row d-flex">
-  				<div class="col-lg-8 col-md-8 col-sm-12">
-  					<h1 id="header" class="text-left">Software Catalog App</h1>
-  				</div>
-  				<div class="col-lg-4 col-md-4 col-sm-12 align-self-center">
-  					<!-- <div class=""> -->
-  						<button class="btn btn-large float-right button" type="button">Login</button>
-  					<!-- </div> -->
-  				</div>
-  			</div>
-  		</div>
-  	</div>
-	<div class="container pt-3 pb-3" id="awesome">	
-		<h2>Edit Field</h2>
-		<form action="#" method="POST">
-			<div class="form-group row">
-				<label for="inputName" class="col-sm-2 col-form-label">Name</label>
-				<div class="col-sm-10">
-					<input class="form-control" id="inputName" type='text' name="name" placeholder="Please enter the name of the field">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="description" class="col-sm-2 col-form-label">Description</label>
-				<div class="col-sm-10">
-					<textarea class="form-control" rows="3" id="description" name="description" placeholder="Please write a bit about the tool or language"></textarea>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="Website" class="col-sm-2 col-form-label">Website</label>
-				<div class="col-sm-10">
-					<input class="form-control" type="url" pattern="https?://.+" id="website" name="website" placeholder="Please enter the website for information">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="url" class="col-sm-2 col-form-label">Image URL</label>
-				<div class="col-sm-10">
-					<input class="form-control" id="url" type='url' name="image" pattern="https?://.+" placeholder="Please enter the url of the image">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="category" class="col-sm-2 col-form-label">Category</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="category" name="category">
-						{% for i in categories %}
-						{% if menuitem.specialty_id == i.id %}
-							<option value="{{i.name}}" selected>{{i.name}}</option>
-						{% else %}
-							<option value="{{i.name}}">{{i.name}}</option>
-						{% endif %}
-						{% endfor%}
-					</select>
-				</div>
-			</div>
-			<input type="submit" class="btn btn-success" name="choice" value="Edit">
-			<input type="submit" class="btn btn-success" name="choice" value="Cancel" formnovalidate>
-		</form>	
+{% extends "main.html" %}
+{% block logBtn %}
+<a href="{{url_for('gdisconnect')}}"><button class="btn btn-large float-right button" type="button">Logout</button></a>
+{% endblock %}
+{% block midContent %}
+<h2>Edit Field</h2>
+<form action="#" method="POST">
+	<div class="form-group row">
+		<label for="inputName" class="col-sm-2 col-form-label">Name</label>
+		<div class="col-sm-10">
+			<input class="form-control" id="inputName" type='text' name="name" placeholder="Please enter the name of the field">
+		</div>
 	</div>
-</body>
+	<div class="form-group row">
+		<label for="description" class="col-sm-2 col-form-label">Description</label>
+		<div class="col-sm-10">
+			<textarea class="form-control" rows="3" id="description" name="description" placeholder="Please write a bit about the tool or language"></textarea>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="Website" class="col-sm-2 col-form-label">Website</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="url" pattern="https?://.+" id="website" name="website" placeholder="Please enter the website for information">
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="url" class="col-sm-2 col-form-label">Image URL</label>
+		<div class="col-sm-10">
+			<input class="form-control" id="url" type='url' name="image" pattern="https?://.+" placeholder="Please enter the url of the image">
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="category" class="col-sm-2 col-form-label">Category</label>
+		<div class="col-sm-10">
+			<select class="form-control" id="category" name="category">
+				{% for i in categories %}
+				{% if menuitem.specialty_id == i.id %}
+				<option value="{{i.name}}" selected>{{i.name}}</option>
+				{% else %}
+				<option value="{{i.name}}">{{i.name}}</option>
+				{% endif %}
+				{% endfor%}
+			</select>
+		</div>
+	</div>
+	<input type="submit" class="btn btn-success" name="choice" value="Edit">
+	<input type="submit" class="btn btn-success" name="choice" value="Cancel" formnovalidate>
+</form>	
+{% endblock %}

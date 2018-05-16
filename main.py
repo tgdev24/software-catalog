@@ -196,6 +196,7 @@ def newField():
 			newField = Fields(name=request.form['name'], user_id=login_session['user_id'])
 			session.add(newField)
 			session.commit()
+			flash("New field successfully created")
 			return redirect(url_for('fields'))
 		else:
 			return redirect(url_for('fields'))
@@ -217,6 +218,7 @@ def editField(id):
 			field.name = request.form['name']
 			session.add(field)
 			session.commit()
+			flash("Successfully Edited")
 			return redirect(url_for('fields'))
 		else:
 			return redirect(url_for('fields'))
@@ -228,11 +230,16 @@ def deleteField(id):
 	if 'username' not in login_session:
 		return redirect('/login')
 	fieldToBeDeleted = session.query(Fields).filter_by(id=id).one()
+	itemsToBeDeleted = session.query(MenuItem).filter_by(specialty_id=fieldToBeDeleted.id).all()
 	if(request.method == 'POST'):
 		choice = request.form['choice']
 		if(choice == "Yes"):
+			for i in itemsToBeDeleted:
+				session.delete(i)
+			session.commit()
 			session.delete(fieldToBeDeleted)
 			session.commit()
+			flash("Successfully Deleted Field")
 			return redirect(url_for('fields'))
 		else:
 			return redirect(url_for('fields'))
@@ -249,6 +256,7 @@ def newMenuItem(id):
 			newMenuItem = MenuItem(name=request.form['name'], description=request.form['description'], website=request.form['website'], image=request.form['image'], specialty_id=currentfield.id, user_id=login_session['user_id'])
 			session.add(newMenuItem)
 			session.commit()
+			flash("New menu item successfully created")
 			return redirect(url_for('languages', id = currentfield.id))
 		else:
 			return redirect(url_for('languages', id = currentfield.id))
@@ -275,6 +283,7 @@ def editMenuItem(id, menu_id):
 				editedItem.specialty_id = specialty.id
 			session.add(editedItem)
 			session.commit()
+			flash("Successfully edited menu item")
 			return redirect(url_for('languages', id=id))
 		else:
 			return redirect(url_for('languages', id=id))
@@ -291,6 +300,7 @@ def deleteMenuItem(id, menu_id):
 		if(request.form['choice'] == 'Delete'):
 			session.delete(itemToDelete)
 			session.commit()
+			flash("Successfully deleted menu item")
 			return redirect(url_for('languages', id=id))
 		else:
 			return redirect(url_for('languages', id=id))
