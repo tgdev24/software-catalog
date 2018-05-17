@@ -13,7 +13,7 @@ from flask import make_response
 import requests
 
 CLIENT_ID = json.loads(open('client_secrets3.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "software catalog app"
+APPLICATION_NAME = "software catalog app one"
 
 app = Flask(__name__)
 engine = create_engine('sqlite:///catalogwithusers.db')
@@ -104,16 +104,16 @@ def gconnect():
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
 
-    output = ''
-    output += '<h1>Welcome, '
-    output += login_session['username']
-    output += '!</h1>'
-    output += '<img src="'
-    output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    # output = ''
+    # output += '<h1>Welcome, '
+    # output += login_session['username']
+    # output += '!</h1>'
+    # output += '<img src="'
+    # output += login_session['picture']
+    # output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
-    return output
+    return redirect(url_for('fields'))
 
 @app.route('/gdisconnect')
 def gdisconnect():
@@ -173,7 +173,9 @@ def fields():
 	fields = session.query(Fields).all()
 	latestOnes = session.query(MenuItem).order_by(desc(MenuItem.id)).limit(7).all()
 	if('username' not in login_session):
-		return render_template('publicfields.html', fields= fields, latest=latestOnes)
+		state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
+		login_session['state'] = state
+		return render_template('publicfields.html', fields= fields, latest=latestOnes, STATE=state)
 	return render_template('fields.html', fields = fields, latest=latestOnes)
 
 @app.route("/fields/<id>/")
@@ -182,6 +184,8 @@ def languages(id):
 	creator = getUserInfo(field.user_id)
 	fields = session.query(Fields).all()
 	languages = session.query(MenuItem).filter_by(specialty_id=field.id).all()
+	if('username' in login_session and creator.id != login_session['user_id']):
+		return render_template('menuUser.html', fields= fields, field=field, languages=languages)
 	if('username' not in login_session or creator.id != login_session['user_id']):
 		return render_template('publicmenu.html', fields= fields, field=field, languages=languages, creator=creator)
 	return render_template('menu.html',fields=fields, field = field, languages = languages)

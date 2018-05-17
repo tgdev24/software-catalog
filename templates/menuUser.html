@@ -1,4 +1,7 @@
 {% extends "main.html" %}
+{% block logBtn %}
+<a href="{{url_for('gdisconnect')}}"><button class="btn btn-large float-right button" type="button">Logout</button></a>
+{% endblock %}
 {% block messages %}
 <div class="flash">
 	{% with messages = get_flashed_messages() %}
@@ -22,8 +25,9 @@
 		{% endfor %}
 	</div>
 	<div class="col-sm-9 mx-auto">
-		<div>
+		<div class="text-center">
 			<h2 class="text-center">Languages in {{field.name}}</h2>
+			<a href="{{url_for('newMenuItem', id=field.id)}}"><button type="button" class="btn btn-outline-dark"><i class="material-icons align-middle">add</i> Add Menu Item</button></a>
 		</div>
 		<div class="text-center">
 			{% for i in languages %}
@@ -32,6 +36,7 @@
 				<p>{{i.description}}</p>
 				<p><a href="{{'%s'%i.website}}" target="_blank" style="color: #28a745;">For More Information</a></p>
 				<img src="{{i.image}}" width="300">
+				<a href="{{url_for('editMenuItem', id=field.id, menu_id=i.id)}}"><h6>Edit</h6></a>
 			</div>
 			{% endfor %}
 		</div>
