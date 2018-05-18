@@ -13,7 +13,9 @@ VirtualBox
 
 **Instructions:**
 1. Download or fork the repository
-2. Run the pg_config.sh script on the commandline
+2. Run "vagrant up" command
+3. Run "vagrant ssh" command
+3. Run the pg_config.sh script on the commandline with sudo
 3. Run the database_setup.py program to setup the database
 4. Run the menus2.py to setup the initial information
 5. Run the main.py to work with the app
