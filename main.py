@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
+from flask import(Flask, render_template, request, redirect, url_for, jsonify, flash)
 from flask import session as login_session
 import random, string
 from sqlalchemy import create_engine, desc
@@ -103,14 +103,6 @@ def gconnect():
     if not user_id:
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
-
-    # output = ''
-    # output += '<h1>Welcome, '
-    # output += login_session['username']
-    # output += '!</h1>'
-    # output += '<img src="'
-    # output += login_session['picture']
-    # output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return redirect(url_for('fields'))
@@ -184,8 +176,6 @@ def languages(id):
 	creator = getUserInfo(field.user_id)
 	fields = session.query(Fields).all()
 	languages = session.query(MenuItem).filter_by(specialty_id=field.id).all()
-	if('username' in login_session and creator.id != login_session['user_id']):
-		return render_template('menuUser.html', fields= fields, field=field, languages=languages)
 	if('username' not in login_session or creator.id != login_session['user_id']):
 		return render_template('publicmenu.html', fields= fields, field=field, languages=languages, creator=creator)
 	return render_template('menu.html',fields=fields, field = field, languages = languages)
@@ -310,7 +300,6 @@ def deleteMenuItem(id, menu_id):
 			return redirect(url_for('languages', id=id))
 	else:
 		return render_template('deleteMenuItem.html', item=itemToDelete)
-	# return "This page is for deleting menu item %s" % menu_id
 
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'

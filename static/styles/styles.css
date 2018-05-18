@@ -101,3 +101,8 @@ body{
     padding: 15px;
     margin: 0 auto;
 }
+
+.signinBtn{
+	float: right;
+	text-align: right;
+}
