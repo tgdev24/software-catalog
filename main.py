@@ -1,5 +1,11 @@
 #!flask/bin/python
-from flask import(Flask, render_template, request, redirect, url_for, jsonify, flash)
+from flask import(Flask,
+				  render_template, 
+				  request, 
+				  redirect, 
+				  url_for, 
+				  jsonify, 
+				  flash, make_response)
 from flask import session as login_session
 import random, string
 from sqlalchemy import create_engine, desc
@@ -9,7 +15,6 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
 import json
-from flask import make_response
 import requests
 
 CLIENT_ID = json.loads(open('client_secrets3.json', 'r').read())['web']['client_id']
@@ -183,7 +188,7 @@ def languages(id):
 @app.route("/fields/new/", methods=['GET', 'POST'])
 def newField():
 	if 'username' not in login_session:
-		return redirect('/login')
+		return redirect('/fields')
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
 			# must store the user that's currently logged in
@@ -197,16 +202,12 @@ def newField():
 	else:
 		return render_template('newField.html')
 
-@app.route("/users/")
-def users():
-	users = session.query(User).all()
-	return render_template('users.html', users=users)
-
 @app.route("/fields/<id>/edit/", methods=['GET', 'POST'])
 def editField(id):
-	if 'username' not in login_session:
-		return redirect('/login')
 	field = session.query(Fields).filter_by(id=id).one()
+	creator = getUserInfo(field.user_id)
+	if 'username' not in login_session or creator.id != login_session['user_id']:
+		return redirect('/fields')
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
 			field.name = request.form['name']
@@ -221,8 +222,10 @@ def editField(id):
 
 @app.route("/fields/<id>/delete/", methods=['GET', 'POST'])
 def deleteField(id):
-	if 'username' not in login_session:
-		return redirect('/login')
+	field = session.query(Fields).filter_by(id=id).one()
+	creator = getUserInfo(field.user_id)
+	if('username' not in login_session or creator.id != login_session['user_id']):
+		return redirect('/fields')
 	fieldToBeDeleted = session.query(Fields).filter_by(id=id).one()
 	itemsToBeDeleted = session.query(MenuItem).filter_by(specialty_id=fieldToBeDeleted.id).all()
 	if(request.method == 'POST'):
@@ -242,8 +245,10 @@ def deleteField(id):
 
 @app.route("/fields/<id>/new/", methods=['GET', 'POST'])
 def newMenuItem(id):
-	if 'username' not in login_session:
-		return redirect('/login')
+	field = session.query(Fields).filter_by(id=id).one()
+	creator = getUserInfo(field.user_id)
+	if('username' not in login_session or creator.id != login_session['user_id']):
+		return redirect('/fields')
 	currentfield = session.query(Fields).filter_by(id=id).one()
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Add"):
@@ -259,9 +264,10 @@ def newMenuItem(id):
 
 @app.route("/fields/<id>/<menu_id>/edit/", methods=['GET', 'POST'])
 def editMenuItem(id, menu_id):
-	if 'username' not in login_session:
-		return redirect('/login')
 	editedItem = session.query(MenuItem).filter_by(id=menu_id).one()
+	creator = getUserInfo(editedItem.user_id)
+	if('username' not in login_session or creator.id != login_session['user_id']):
+		return redirect('/fields')
 	if request.method == "POST":
 		if(request.form["choice"] == "Edit"):
 			if request.form['name']:
@@ -287,9 +293,10 @@ def editMenuItem(id, menu_id):
 
 @app.route('/fields/<id>/<menu_id>/delete/', methods=['GET', 'POST'])
 def deleteMenuItem(id, menu_id):
-	if 'username' not in login_session:
-		return redirect('/login')
 	itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
+	creator = getUserInfo(editedItem.user_id)
+	if('username' not in login_session or creator.id != login_session['user_id']):
+		return redirect('/fields')
 	if request.method == 'POST':
 		if(request.form['choice'] == 'Delete'):
 			session.delete(itemToDelete)
