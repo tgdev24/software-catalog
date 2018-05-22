@@ -15,6 +15,15 @@ class User(Base):
 	email = Column(String(250), nullable=False)
 	picture = Column(String(250))
 
+	@property
+	def serialize(self):
+		return{
+			'id': self.id,
+			'name': self.name,
+			'email':self.email,
+			'picture':self.picture
+		}
+
 class Fields(Base):
 	__tablename__ = 'specialties'
 	
@@ -27,7 +36,8 @@ class Fields(Base):
 	def serialize(self):
 		return{
 			'id': self.id,
-			'name': self.name
+			'name': self.name,
+			'user_id':self.user_id
 		}
 
 class MenuItem(Base):
@@ -50,6 +60,8 @@ class MenuItem(Base):
 			'description': self.description,
 			'website': self.website,
 			'image': self.image,
+			'specialty_id': self.specialty_id,
+			'user_id': self.user_id
 		}
 
 engine = create_engine('sqlite:///catalogwithusers.db')
