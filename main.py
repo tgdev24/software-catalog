@@ -232,6 +232,7 @@ def languages(id):
 @app.route("/fields/new/", methods=['GET', 'POST'])
 def newField():
 	if 'username' not in login_session:
+		flash("You are not authorized to add a new field.")
 		return redirect('/fields')
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
@@ -253,9 +254,11 @@ def newField():
 def editField(id):
 	field = session.query(Fields).filter_by(id=id).one()
 	creator = getUserInfo(field.user_id)
+
 	if(
 		'username' not in login_session or 
 		creator.id != login_session['user_id']):
+		flash("You are not authorized to edit this field.")
 		return redirect('/fields')
 	if(request.method == 'POST'):
 		if(request.form["choice"] == "Submit"):
@@ -277,6 +280,7 @@ def deleteField(id):
 	if(
 		'username' not in login_session or 
 		creator.id != login_session['user_id']):
+		flash("You are not authorized to delete this field.")
 		return redirect('/fields')
 	fieldToBeDeleted = session.query(Fields).filter_by(id=id).one()
 	itemsToBeDeleted = session.query(MenuItem).filter_by(
@@ -304,6 +308,7 @@ def newMenuItem(id):
 	if(
 		'username' not in login_session or 
 		creator.id != login_session['user_id']):
+		flash("You are not authorized to create a new field.")
 		return redirect('/fields')
 	currentfield = session.query(Fields).filter_by(id=id).one()
 	if(request.method == 'POST'):
@@ -332,6 +337,7 @@ def editMenuItem(id, menu_id):
 	if(
 		'username' not in login_session or 
 		creator.id != login_session['user_id']):
+		flash("You are not authorized to edit the menu item.")
 		return redirect('/fields')
 	if request.method == "POST":
 		if(request.form["choice"] == "Edit"):
@@ -368,6 +374,7 @@ def deleteMenuItem(id, menu_id):
 	if(
 		'username' not in login_session or 
 		creator.id != login_session['user_id']):
+		flash("You are not authorized to delete the menu item.")
 		return redirect('/fields')
 	if request.method == 'POST':
 		if(request.form['choice'] == 'Delete'):
