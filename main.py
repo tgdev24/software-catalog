@@ -204,6 +204,7 @@ def fields():
 		login_session['state'] = state
 		return render_template(
 			'publicfields.html', fields=fields, latest=latestOnes, STATE=state)
+	flash('Successfully logged in.')
 	return render_template('fields.html', fields=fields, latest=latestOnes)
 
 
