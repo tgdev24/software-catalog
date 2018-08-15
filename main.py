@@ -26,7 +26,7 @@ CLIENT_ID=json.loads(open(
 APPLICATION_NAME = "software catalog app one"
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///catalogwithusers.db')
+engine = create_engine('sqlite:///catalogwithusers.db?check_same_thread=False')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -98,7 +98,7 @@ def gconnect():
 	if result['issued_to'] != CLIENT_ID:
 		response = make_response(
 			json.dumps("Token's client ID does not match app's."), 401)
-		print "Token's client ID does not match app's."
+		print("Token's client ID does not match app's.")
 		response.headers['Content-Type'] = 'application/json'
 		return response
 
@@ -129,7 +129,7 @@ def gconnect():
 		user_id = createUser(login_session)
 	login_session['user_id'] = user_id
 	flash("you are now logged in as %s" % login_session['username'])
-	print "done!"
+	print("done!")
 	return redirect(url_for('fields'))
 
 
@@ -137,19 +137,19 @@ def gconnect():
 def gdisconnect():
 	access_token = login_session.get('access_token')
 	if access_token is None:
-		print 'Access Token is None'
+		print('Access Token is None')
 		response = make_response(
 			json.dumps('Current user not connected.'), 401)
 		response.headers['Content-Type'] = 'application/json'
 		return response
-	print 'In gdisconnect access token is %s', access_token
-	print 'User name is: '
-	print login_session['username']
+	print('In gdisconnect access token is %s', access_token)
+	print('User name is: ')
+	print(login_session['username'])
 	url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']			# noqa
 	h = httplib2.Http()
 	result = h.request(url, 'GET')[0]
-	print 'result is '
-	print result
+	print('result is ')
+	print(result)
 	if result['status'] == '200':
 		del login_session['access_token']
 		del login_session['gplus_id']
