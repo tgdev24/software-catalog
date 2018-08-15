@@ -23,7 +23,7 @@ import requests
 CLIENT_ID=json.loads(open(
 	'client_secrets3.json',
 	'r').read())['web']['client_id']
-APPLICATION_NAME = "software catalog app one"
+APPLICATION_NAME = "software_catalog"
 
 app = Flask(__name__)
 engine = create_engine('sqlite:///catalogwithusers.db?check_same_thread=False')
