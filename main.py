@@ -34,7 +34,6 @@ session = DBSession()
 
 app.config['SECRET_KEY'] = 'software_catalog'
 # session.init_app(app)
-app.secret_key()
 
 @app.route('/fields/JSON')
 def fieldsJSON():
