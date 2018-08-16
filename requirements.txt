@@ -4,8 +4,7 @@ flask-sqlalchemy
 sqlalchemy
 oauth2client
 httplib2
-jinja
 oauthlib
 virtualenv-clone
-virtualenv-wrapper
+virtualenvwrapper
 werkzeug
