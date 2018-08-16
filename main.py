@@ -32,6 +32,9 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+app.config['SECRET_KEY'] = 'software_catalog'
+sess.init_app(app)
+app.secret_key()
 
 @app.route('/fields/JSON')
 def fieldsJSON():
@@ -389,6 +392,5 @@ def deleteMenuItem(id, menu_id):
 		return render_template('deleteMenuItem.html', item=itemToDelete)
 
 if __name__ == '__main__':
-	app.secret_key = 'software_catalog'
 	app.debug = True
 	app.run(host='0.0.0.0', port=5000)
