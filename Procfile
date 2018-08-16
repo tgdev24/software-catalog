@@ -1,2 +1,2 @@
-web: gunicorn app:software_catalog
+web: gunicorn software_catalog:main
 
