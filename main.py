@@ -33,7 +33,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 app.config['SECRET_KEY'] = 'software_catalog'
-sess.init_app(app)
+session.init_app(app)
 app.secret_key()
 
 @app.route('/fields/JSON')
